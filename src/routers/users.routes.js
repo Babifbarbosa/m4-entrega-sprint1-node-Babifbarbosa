@@ -5,18 +5,17 @@ import updateUserController from "../controllers/updateUsers.controller";
 import listUserController from "../controllers/listUsers.controller";
 import deleteUserController from "../controllers/deleteUser.controller";
 import userLoginController from "../controllers/userLogin.controller";
-import verifyEmailAvailabilityMiddleware from "../middlewares/verifyEmailAvailability.middlewares";
-import verifyAuthTokenMiddleware from "../middlewares/verifyAuthToken.middleware";
-import verifyAuthTokenAdmUpdates from "../middlewares/verifyAuthTokenAdmUpdates";
 import listProfileController from "../controllers/listProfile.controller";
-import verifyTokenAdmGet from "../middlewares/verifyTokenAdm.middlewares";
+import admMiddlewares from "../middlewares/adm.middlewares";
+import verifyEmail from "../middlewares/verifyEmail.middlewares";
+import verifyAuth from "../middlewares/verifyAuthToken.middleware";
 
 const router = Router();
 
-router.post("/users", verifyEmailAvailabilityMiddleware, createUserController);
-router.get("/users", verifyTokenAdmGet, listUserController);
-router.patch("/users/:id", verifyAuthTokenAdmUpdates, updateUserController);
-router.delete("/users/:id", verifyAuthTokenAdmUpdates, deleteUserController);
+router.post("/users", verifyEmail, createUserController);
+router.get("/users", admMiddlewares, verifyAuth, listUserController);
+router.patch("/users/:id", admMiddlewares, verifyAuth, updateUserController);
+router.delete("/users/:id", admMiddlewares, verifyAuth, deleteUserController);
 router.post("/login", userLoginController);
-router.get("/users/profile", verifyAuthTokenMiddleware, listProfileController);
+router.get("/users/profile", verifyAuth, listProfileController);
 export default router;

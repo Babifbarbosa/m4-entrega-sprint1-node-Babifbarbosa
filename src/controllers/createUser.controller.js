@@ -5,6 +5,6 @@ const createUserController = async (req, res) => {
 
   const user = await createUserService(email, name, password, isAdm);
 
-  return res.json(user);
+  return res.status(201).json(user);
 };
 export default createUserController;
