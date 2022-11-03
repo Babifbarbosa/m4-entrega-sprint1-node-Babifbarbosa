@@ -7,6 +7,8 @@ const verifyAuth = (req, res, next) => {
     return res.status(401).json({ message: "Token não autorizado" });
   }
 
+  token = token.split(" ")[1];
+
   jwt.verify(token, "SECRET_KEY", (error, decoded) => {
     if (error) {
       return res.status(401).json({ message: "Token invalido" });
